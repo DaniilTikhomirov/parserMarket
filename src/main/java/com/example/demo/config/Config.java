@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -30,12 +31,13 @@ public class Config {
     }
 
     @Bean
+    @ConditionalOnMissingBean
     public WebDriver driver() {
         return new ChromeDriver(options());
     }
 
     @Bean
-    public WebDriverWait waitDriver() {
-        return new WebDriverWait(driver(), Duration.ofSeconds(15));
+    public WebDriverWait waitDriver(WebDriver driver) {
+        return new WebDriverWait(driver, Duration.ofSeconds(15));
     }
 }
